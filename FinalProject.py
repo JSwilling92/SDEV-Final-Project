@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 
 """
 Program: FinalProject.py
@@ -37,9 +38,18 @@ def signin():
         screen.geometry('925x500+300+200')
         screen.config(bg="white")
 
-        Label(screen, text='Hello!', bg='#fff', font=('Calibre(Body)', 50, 'bold')).pack(expand=True)
+        Label(screen, text='Hello!', fg='#57a1f8', bg='#fff', font=('Calibre(Body)', 50, 'bold')).pack(expand=True)
 
         screen.mainloop()
+
+    elif username != 'admin' and password != '1234':
+        messagebox.showerror("Invalid", "Invalid username and password")
+
+    elif password != "1234":
+        messagebox.showerror("Invalid", "Invalid username or password")
+
+    elif username != "admin":
+        messagebox.showerror("Invalid", "Invalid username or password")
 
 
 """ add Image 1 and translate it """
@@ -57,6 +67,8 @@ heading.place(x=35, y=5)
 
 
 """ Format a seamless input with no borders and placeholder text prompt that deletes on entering text field """
+
+"""----------------------------------Username---------------------------------------- """
 
 
 # create functions for a responsive placeholder text
@@ -81,7 +93,9 @@ user.bind('<FocusOut>', on_leave)
 
 
 Frame(frame, width=295, height=2, bg='black').place(x=25, y=107)
-# ---------------------------------------------------------
+
+
+"""----------------------------------Password---------------------------------------- """
 
 
 # deletes text once text field is clicked
@@ -107,7 +121,7 @@ code.bind('<FocusOut>', on_leave)
 
 Frame(frame, width=295, height=2, bg='black').place(x=25, y=203)
 
-""" Format buttons for input submission ('Sign in' and 'Sign Up') """
+"""--------------------------- Format buttons for input submission ('Sign in' and 'Sign Up') -------------"""
 Button(frame, width=19, pady=7, text='Sign in', bg='#57a1f8', fg='white', border=0, cursor='hand2', command=signin).place(x=23, y=254)
 
 Button(frame, width=19, pady=7, text='Sign up', bg='#57a1f8', fg='white', border=0, cursor='hand2').place(x=185, y=254)
@@ -117,7 +131,7 @@ help_img = PhotoImage(file='dot.png')
 Label(root, image=help_img, bg='white').place(x=520, y=379)
 
 help_link = Button(frame, width=20, pady=7, text='Need help signing in?', bg='white', fg='#57a1f8', border=0,
-    cursor='hand2')
+                   cursor='hand2')
 help_link.place(x=85, y=320)
 
 root.mainloop()

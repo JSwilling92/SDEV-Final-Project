@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
-
+import subprocess
+import ast
 """
 Program: FinalProject.py
 Author: Josh Swilling
@@ -32,7 +33,15 @@ def signin():
     username = user.get()
     password = code.get()
 
-    if username == 'admin' and password == '1234':
+    file = open('datasheet.txt', 'r')
+    d = file.read()
+    r = ast.literal_eval(d)
+    file.close()
+
+    # print(r.keys())
+    # print(r.values())
+
+    if username in r.keys() and password == r[username]:
         screen = Toplevel(root)
         screen.title("App")
         screen.geometry('925x500+300+200')
@@ -41,15 +50,8 @@ def signin():
         Label(screen, text='Hello!', fg='#57a1f8', bg='#fff', font=('Calibre(Body)', 50, 'bold')).pack(expand=True)
 
         screen.mainloop()
-
-    elif username != 'admin' and password != '1234':
-        messagebox.showerror("Invalid", "Invalid username and password")
-
-    elif password != "1234":
-        messagebox.showerror("Invalid", "Invalid username or password")
-
-    elif username != "admin":
-        messagebox.showerror("Invalid", "Invalid username or password")
+    else:
+        messagebox.showerror('Invalid', 'invalid username or password')
 
 
 """ add Image 1 and translate it """
@@ -121,17 +123,39 @@ code.bind('<FocusOut>', on_leave)
 
 Frame(frame, width=295, height=2, bg='black').place(x=25, y=203)
 
-"""--------------------------- Format buttons for input submission ('Sign in' and 'Sign Up') -------------"""
+"""----- Define function and Format buttons for input submission ('Sign in' and 'Sign Up') -------------"""
+
+
+# Function to close the current window
+def close_window():
+    root.destroy()
+
+
+# Function to open another program
+def register():
+    close_window()
+    subprocess.Popen(['python', 'signUpPage.py'])
+
+
 Button(frame, width=19, pady=7, text='Sign in', bg='#57a1f8', fg='white', border=0, cursor='hand2', command=signin).place(x=23, y=254)
 
-Button(frame, width=19, pady=7, text='Sign up', bg='#57a1f8', fg='white', border=0, cursor='hand2').place(x=185, y=254)
+Button(frame, width=19, pady=7, text='Sign up', bg='#57a1f8', fg='white', border=0, cursor='hand2', command=register).place(x=185, y=254)
 
 """ create help link for sign in issues """
 help_img = PhotoImage(file='dot.png')
 Label(root, image=help_img, bg='white').place(x=520, y=379)
 
+
+# Create a function to open the user manual program
+def user_manual():
+    subprocess.Popen(['python', 'userManual.py'])
+
+
+# Create the link and bind it to the open_user_manual function
 help_link = Button(frame, width=20, pady=7, text='Need help signing in?', bg='white', fg='#57a1f8', border=0,
-                   cursor='hand2')
+                   command=user_manual, cursor='hand2')
 help_link.place(x=85, y=320)
 
+
+# Start the Tkinter event loop to run the registration GUI
 root.mainloop()
